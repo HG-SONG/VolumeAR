@@ -13,6 +13,9 @@ final class JoystickView: UIView {
 
     private var handleCenterX: NSLayoutConstraint!
     private var handleCenterY: NSLayoutConstraint!
+    private var baseCenter: CGPoint {
+        return CGPoint(x: bounds.midX, y: bounds.midY)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,5 +70,53 @@ final class JoystickView: UIView {
         rotation.duration = 5
         rotation.repeatCount = .infinity
         handleView.layer.add(rotation, forKey: "rotationAnimation")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        moveHandle(with: touches)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        moveHandle(with: touches)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        resetHandlePosition()
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        resetHandlePosition()
+    }
+    
+    private func moveHandle(with touches: Set<UITouch>) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: baseView)
+        let maxRadius = baseView.bounds.width / 2
+        
+        let dx = location.x - maxRadius
+        let dy = location.y - maxRadius
+        let distance = sqrt(dx*dx + dy*dy)
+        
+        if distance <= maxRadius {
+            handleCenterX.constant = dx
+            handleCenterY.constant = dy
+        } else {
+            let ratio = maxRadius / distance
+            handleCenterX.constant = dx * ratio
+            handleCenterY.constant = dy * ratio
+        }
+        
+        UIView.animate(withDuration: 0.1) {
+            self.baseView.layoutIfNeeded()
+        }
+    }
+    
+    private func resetHandlePosition() {
+        handleCenterX.constant = 0
+        handleCenterY.constant = 0
+        
+        UIView.animate(withDuration: 0.2) {
+            self.baseView.layoutIfNeeded()
+        }
     }
 }
