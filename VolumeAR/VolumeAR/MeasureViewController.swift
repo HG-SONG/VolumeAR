@@ -15,6 +15,7 @@ final class MeasureViewController: UIViewController {
     let pointButton = UIButton(type: .system)
     let joystickView = JoystickView()
     let modeLabel = UILabel()
+    let surfaceIndicatorNode = SurfaceIndicatorNode()
     let surfaceTracker: SurfaceTracker = .init() // 테스트할 필요성이 있으면, 프로토콜로 의존성 주입해서 쓰자
     
     private var mode: Mode = .searching {
@@ -28,7 +29,7 @@ final class MeasureViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         
-        setupSceneView()
+        setupCameraView()
         setupUI()
         bindSurfaceTracker()
     }
@@ -65,13 +66,37 @@ extension MeasureViewController {
         surfaceTracker.modePublisher
             .removeDuplicates()
             .sink { [weak self] newMode in
-                Task {
+                Task { @MainActor in
                     self?.updateMode(newMode)
                 }
             }
             .store(in: &cancellables)
+
+        surfaceTracker.surfaceInfoPublisher
+            .sink { [weak self] info in
+                Task { @MainActor in
+                    guard let self = self else { return }
+                    guard let info = info else {
+                        self.surfaceIndicatorNode.isHidden = true
+                        return
+                    }
+
+                    let minScale: Float = 0.3
+                    let maxScale: Float = 1.5
+                    let maxDistance: Float = 2.0
+                    let scale = max(minScale, maxScale - (info.distance / maxDistance) * (maxScale - minScale))
+
+                    self.surfaceIndicatorNode.isHidden = false
+                    self.surfaceIndicatorNode.updateTransform(
+                        position: info.position,
+                        normal: info.normal,
+                        scale: scale
+                    )
+                }
+            }
+            .store(in: &cancellables)
     }
-    
+
     @MainActor
     private func updateMode(_ mode: Mode) {
         self.mode = mode
@@ -84,7 +109,8 @@ extension MeasureViewController {
 
 // MARK: - ARKit Setup
 extension MeasureViewController {
-    private func setupSceneView() {
+    private func setupCameraView() {
+        cameraView.scene.rootNode.addChildNode(surfaceIndicatorNode)
         cameraView.delegate = surfaceTracker
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cameraView)
