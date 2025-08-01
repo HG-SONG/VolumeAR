@@ -19,27 +19,38 @@ final class MeasureViewController: UIViewController {
     }
     
     private func setupUI() {
+        setupReticleView()
+        setupPointButton()
+        setupJoystickView()
+    }
+    
+    private func setupReticleView() {
         reticleView.translatesAutoresizingMaskIntoConstraints = false
-        pointButton.translatesAutoresizingMaskIntoConstraints = false
-        joystickView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(reticleView)
-        view.addSubview(pointButton)
-        pointButton.applyPointButtonStyle()
-        
-        view.addSubview(joystickView)
-        
         NSLayoutConstraint.activate([
             reticleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             reticleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             reticleView.widthAnchor.constraint(equalToConstant: 30),
             reticleView.heightAnchor.constraint(equalToConstant: 30),
-            
+        ])
+    }
+    
+    private func setupPointButton() {
+        pointButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pointButton)
+        pointButton.applyPointButtonStyle()
+        NSLayoutConstraint.activate([
             pointButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pointButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
             pointButton.widthAnchor.constraint(equalToConstant: 120),
             pointButton.heightAnchor.constraint(equalToConstant: 44),
-            
+        ])
+    }
+    
+    private func setupJoystickView() {
+        joystickView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(joystickView)
+        NSLayoutConstraint.activate([
             joystickView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             joystickView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             joystickView.widthAnchor.constraint(equalToConstant: 60),
