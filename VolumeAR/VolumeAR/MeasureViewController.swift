@@ -76,6 +76,10 @@ extension MeasureViewController {
     private func updateMode(_ mode: Mode) {
         self.mode = mode
     }
+    
+    private func cancelSubscriptions() {
+        cancellables.removeAll()
+    }
 }
 
 // MARK: - ARKit Setup
