@@ -28,6 +28,9 @@ final class JoystickView: UIView {
     }
 
     private func setupUI() {
+        alpha = 0.5
+        isUserInteractionEnabled = false
+        
         translatesAutoresizingMaskIntoConstraints = false
         baseView.backgroundColor = UIColor.systemGray5
         baseView.layer.cornerRadius = 30

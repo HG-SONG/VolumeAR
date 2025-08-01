@@ -15,15 +15,20 @@ final class ReticleView: UIView {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.width / 2
+    }
+    
+    func updateColor(_ color: UIColor) {
+        layer.borderColor = color.cgColor
+    }
+
     private func setupUI() {
         backgroundColor = .clear
         layer.borderColor = UIColor.red.cgColor
         layer.borderWidth = 2
-        layer.cornerRadius = bounds.width / 2
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         layer.cornerRadius = bounds.width / 2
     }
 }
