@@ -9,11 +9,6 @@ import UIKit
 import ARKit
 
 final class MeasureViewController: UIViewController {
-    enum Mode {
-        case searching
-        case idle
-    }
-    
     let cameraView = ARSCNView()
     let reticleView = ReticleView()
     let pointButton = UIButton(type: .system)
