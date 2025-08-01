@@ -7,6 +7,7 @@
 
 import UIKit
 import ARKit
+import Combine
 
 final class MeasureViewController: UIViewController {
     let cameraView = ARSCNView()
@@ -14,12 +15,14 @@ final class MeasureViewController: UIViewController {
     let pointButton = UIButton(type: .system)
     let joystickView = JoystickView()
     let modeLabel = UILabel()
+    let surfaceTracker: SurfaceTracker = .init() // 테스트할 필요성이 있으면, 프로토콜로 의존성 주입해서 쓰자
     
     private var mode: Mode = .searching {
         didSet {
             updateUI(for: mode)
         }
     }
+    private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,7 @@ final class MeasureViewController: UIViewController {
         
         setupSceneView()
         setupUI()
+        bindSurfaceTracker()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,10 +59,29 @@ final class MeasureViewController: UIViewController {
     }
 }
 
+// MARK: - About Binding
+extension MeasureViewController {
+    private func bindSurfaceTracker() {
+        surfaceTracker.modePublisher
+            .removeDuplicates()
+            .sink { [weak self] newMode in
+                Task {
+                    self?.updateMode(newMode)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    @MainActor
+    private func updateMode(_ mode: Mode) {
+        self.mode = mode
+    }
+}
+
 // MARK: - ARKit Setup
 extension MeasureViewController {
     private func setupSceneView() {
-        cameraView.delegate = self
+        cameraView.delegate = surfaceTracker
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cameraView)
         NSLayoutConstraint.activate([
@@ -135,15 +158,5 @@ extension MeasureViewController {
             modeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             modeLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
-    }
-}
-
-// MARK: - ARSCNViewDelegate
-extension MeasureViewController: ARSCNViewDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard mode == .searching, anchor is ARPlaneAnchor else { return }
-        Task { @MainActor in
-            self.mode = .idle
-        }
     }
 }
