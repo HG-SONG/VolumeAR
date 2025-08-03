@@ -34,11 +34,7 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
     @MainActor
     private func determineMode(with cameraView: ARSCNView) async -> Mode {
         let center = CGPoint(x: cameraView.bounds.midX, y: cameraView.bounds.midY)
-        guard let query = cameraView.raycastQuery(from: center, allowing: .estimatedPlane, alignment: .any) else {
-            return .searching
-        }
         let results = await hitTestProvider.hitTest(at: center, in: cameraView)
-        print(results)
         return results.first != nil ? .idle : .searching
     }
 
