@@ -12,6 +12,8 @@
 		E47FCA512E3F42BF007E7C99 /* VolumeEntities in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA502E3F42BF007E7C99 /* VolumeEntities */; };
 		E47FCA532E3F4314007E7C99 /* VolumeUI in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA522E3F4314007E7C99 /* VolumeUI */; };
 		E47FCA552E3F4391007E7C99 /* Protocols in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA542E3F4391007E7C99 /* Protocols */; };
+		E47FCA5F2E3F9B76007E7C99 /* AppCore in Resources */ = {isa = PBXBuildFile; fileRef = E47FCA5E2E3F9B76007E7C99 /* AppCore */; };
+		E47FCA642E3FA741007E7C99 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA632E3FA741007E7C99 /* AppCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +34,7 @@
 		E47FCA452E3F315A007E7C99 /* VolumeUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = VolumeUI; sourceTree = "<group>"; };
 		E47FCA472E3F3E61007E7C99 /* Protocols */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Protocols; sourceTree = "<group>"; };
 		E47FCA4A2E3F3EF0007E7C99 /* VolumeEntities */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = VolumeEntities; sourceTree = "<group>"; };
+		E47FCA5E2E3F9B76007E7C99 /* AppCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppCore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -39,6 +42,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Info.plist,
+				Scenes/MeasureScene,
 			);
 			target = E47FC9A22E3C8904007E7C99 /* VolumeAR */;
 		};
@@ -61,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E47FCA552E3F4391007E7C99 /* Protocols in Frameworks */,
+				E47FCA642E3FA741007E7C99 /* AppCore in Frameworks */,
 				E47FCA532E3F4314007E7C99 /* VolumeUI in Frameworks */,
 				E47FCA512E3F42BF007E7C99 /* VolumeEntities in Frameworks */,
 			);
@@ -72,6 +77,7 @@
 		E47FC99A2E3C8904007E7C99 = {
 			isa = PBXGroup;
 			children = (
+				E47FCA5E2E3F9B76007E7C99 /* AppCore */,
 				E47FCA4A2E3F3EF0007E7C99 /* VolumeEntities */,
 				E47FCA472E3F3E61007E7C99 /* Protocols */,
 				E47FCA452E3F315A007E7C99 /* VolumeUI */,
@@ -120,6 +126,7 @@
 				E47FCA502E3F42BF007E7C99 /* VolumeEntities */,
 				E47FCA522E3F4314007E7C99 /* VolumeUI */,
 				E47FCA542E3F4391007E7C99 /* Protocols */,
+				E47FCA632E3FA741007E7C99 /* AppCore */,
 			);
 			productName = VolumeAR;
 			productReference = E47FC9A32E3C8904007E7C99 /* VolumeAR.app */;
@@ -165,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E47FCA482E3F3E61007E7C99 /* Protocols in Resources */,
+				E47FCA5F2E3F9B76007E7C99 /* AppCore in Resources */,
 				E47FCA4B2E3F3EF0007E7C99 /* VolumeEntities in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,6 +408,10 @@
 		E47FCA542E3F4391007E7C99 /* Protocols */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Protocols;
+		};
+		E47FCA632E3FA741007E7C99 /* AppCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
