@@ -15,7 +15,6 @@ final class MeasureViewController: UIViewController {
     let pointButton = UIButton(type: .system)
     let joystickView = JoystickView()
     let modeLabel = UILabel()
-    let surfaceIndicatorNode = SurfaceIndicatorNode()
     let surfaceTracker: SurfaceTracker = .init() // 테스트할 필요성이 있으면, 프로토콜로 의존성 주입해서 쓰자
     
     private var mode: Mode = .searching {
@@ -23,7 +22,7 @@ final class MeasureViewController: UIViewController {
             updateUI(for: mode)
         }
     }
-    private var cancellables = Set<AnyCancellable>()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,7 +95,7 @@ extension MeasureViewController {
             }
             .store(in: &cancellables)
     }
-
+    
     @MainActor
     private func updateMode(_ mode: Mode) {
         self.mode = mode
@@ -110,7 +109,6 @@ extension MeasureViewController {
 // MARK: - ARKit Setup
 extension MeasureViewController {
     private func setupCameraView() {
-        cameraView.scene.rootNode.addChildNode(surfaceIndicatorNode)
         cameraView.delegate = surfaceTracker
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cameraView)
