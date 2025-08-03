@@ -13,7 +13,7 @@ import UIKit
 
 @MainActor
 public final class SurfaceManager: NSObject, SurfaceManagable {
-    private let raycastProvider: RaycastProvidable
+    private let hitTestProvider: HitTestProvidable
     private let frameProvider: FrameProvidable
     private let cameraTransformSubject = PassthroughSubject<simd_float4x4, Never>()
 
@@ -23,26 +23,26 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
     }
 
     public init(
-        raycastProvider: RaycastProvidable = ARSessionRaycastProvider(),
+        raycastProvider: HitTestProvidable = ARSCNViewHitTestProvider(),
         frameProvider: FrameProvidable = ARSessionFrameProvider()
     ) {
-        self.raycastProvider = raycastProvider
+        self.hitTestProvider = raycastProvider
         self.frameProvider = frameProvider
         super.init()
     }
     
     public func updateARSession(_ session: ARSession) {
-        self.raycastProvider.updateSession(session)
+        //self.raycastProvider.updateSession(session)
         self.frameProvider.updateSession(session)
     }
 
     @MainActor
-    private func determineMode(with sceneView: ARSCNView) -> Mode {
+    private func determineMode(with sceneView: ARSCNView) async -> Mode {
         let center = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
         guard let query = sceneView.raycastQuery(from: center, allowing: .estimatedPlane, alignment: .any) else {
             return .searching
         }
-        let results = raycastProvider.raycast(query)
+        let results = await hitTestProvider.hitTest(at: center, in: sceneView)
         print(results)
         return results.first != nil ? .idle : .searching
     }
@@ -55,7 +55,7 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
         guard let cameraView = renderer as? ARSCNView else { return }
 
         Task { @MainActor in
-            let mode = determineMode(with: cameraView)
+            let mode = await determineMode(with: cameraView)
             publishMode(mode)
         }
         
