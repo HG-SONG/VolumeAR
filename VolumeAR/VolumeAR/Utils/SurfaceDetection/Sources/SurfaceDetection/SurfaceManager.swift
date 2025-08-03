@@ -30,11 +30,6 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
         self.frameProvider = frameProvider
         super.init()
     }
-    
-    public func updateARSession(_ session: ARSession) {
-        //self.raycastProvider.updateSession(session)
-        self.frameProvider.updateSession(session)
-    }
 
     @MainActor
     private func determineMode(with cameraView: ARSCNView) async -> Mode {
@@ -57,10 +52,8 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
         Task { @MainActor in
             let mode = await determineMode(with: cameraView)
             publishMode(mode)
-        }
         
-        if let transform = frameProvider.currentCameraTransform {
-            Task { @MainActor in
+            if let transform = frameProvider.currentCameraTransform(from: cameraView.session) {
                 cameraTransformSubject.send(transform)
             }
         }

@@ -138,7 +138,6 @@ extension MeasureViewController {
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
         cameraView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
-        self.surfaceManager.updateARSession(cameraView.session)
     }
 }
 
