@@ -8,21 +8,10 @@
 import ARKit
 import Protocols
 
-public final class ARSessionFrameProvider: FrameProvidable, @unchecked Sendable {
-    private let lock = NSLock()
-    private weak var session: ARSession?
+public struct ARSessionFrameProvider: FrameProvidable {
+    public init() {}
 
-    public init() { }
-    public var currentCameraTransform: simd_float4x4? {
-        lock.lock()
-        defer { lock.unlock() }
-        return session?.currentFrame?.camera.transform
-    }
-
-    public func updateSession(_ session: ARSession) {
-        lock.lock()
-        self.session = session
-        lock.unlock()
+    public func currentCameraTransform(from session: ARSession) -> simd_float4x4? {
+        return session.currentFrame?.camera.transform
     }
 }
-

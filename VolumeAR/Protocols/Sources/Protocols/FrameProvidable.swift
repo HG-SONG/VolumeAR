@@ -7,7 +7,6 @@
 
 import ARKit
 
-public protocol FrameProvidable: Sendable {
-    var currentCameraTransform: simd_float4x4? { get }
-    func updateSession(_ session: ARSession)
+public protocol FrameProvidable {
+    func currentCameraTransform(from session: ARSession) -> simd_float4x4?
 }
