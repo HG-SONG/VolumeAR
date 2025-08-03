@@ -12,13 +12,13 @@ import VolumeUI
 import VolumeEntities
 import Protocols
 
-final class MeasureViewController: UIViewController {
-    let cameraView = ARSCNView()
-    let reticleView = ReticleView()
-    let pointButton = UIButton(type: .system)
-    let joystickView = JoystickView()
-    let modeLabel = UILabel()
-    let surfaceTracker: SurfaceTracker = .init() // 테스트할 필요성이 있으면, 프로토콜로 의존성 주입해서 쓰자
+public final class MeasureViewController: UIViewController {
+    private let cameraView = ARSCNView()
+    private let reticleView = ReticleView()
+    private let pointButton = UIButton(type: .system)
+    private let joystickView = JoystickView()
+    private let modeLabel = UILabel()
+    private let surfaceManager: SurfaceManagable
     private var surfaceTrackerCancellables = Set<AnyCancellable>()
     
     private var mode: Mode = .searching {
@@ -32,7 +32,16 @@ final class MeasureViewController: UIViewController {
     private var levelingCancellable: AnyCancellable?
     private let hapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
-    override func viewDidLoad() {
+    public init(surfaceManager: SurfaceManagable) {
+        self.surfaceManager = surfaceManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
         
@@ -43,12 +52,12 @@ final class MeasureViewController: UIViewController {
         levelingManager.start()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startARSession()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cameraView.session.pause()
     }
@@ -72,7 +81,7 @@ final class MeasureViewController: UIViewController {
 // MARK: - About Binding
 extension MeasureViewController {
     private func bindSurfaceTracker() {
-        surfaceTracker.modePublisher
+        surfaceManager.modePublisher
             .removeDuplicates()
             .sink { [weak self] newMode in
                 Task { @MainActor in
@@ -81,7 +90,7 @@ extension MeasureViewController {
             }
             .store(in: &surfaceTrackerCancellables)
         
-        surfaceTracker.cameraTransformPublisher
+        surfaceManager.cameraTransformPublisher
             .sink { [weak self] camTransform in
                 self?.levelingManager.updateCameraTransform(camTransform)
             }
@@ -93,7 +102,7 @@ extension MeasureViewController {
             .sink { [weak self] offset in
                 Task { @MainActor in
                     self?.levelBubble.update(offset: offset, animated: true)
-                    HapticManager.shared.impactIfNeeded(offset: offset.y)
+                    //HapticManager.shared.impactIfNeeded(offset: offset.y)
                 }
             }
         levelingCancellable?.store(in: &surfaceTrackerCancellables)
@@ -113,7 +122,7 @@ extension MeasureViewController {
 // MARK: - ARKit Setup
 extension MeasureViewController {
     private func setupCameraView() {
-        cameraView.delegate = surfaceTracker
+        cameraView.delegate = surfaceManager
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cameraView)
         NSLayoutConstraint.activate([
@@ -128,8 +137,8 @@ extension MeasureViewController {
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
-        
         cameraView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
+        self.surfaceManager.updateARSession(cameraView.session)
     }
 }
 
