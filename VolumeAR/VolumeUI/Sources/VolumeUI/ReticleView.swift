@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class ReticleView: UIView {
-    override init(frame: CGRect) {
+public final class ReticleView: UIView {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
@@ -16,12 +16,12 @@ final class ReticleView: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = bounds.width / 2
     }
     
-    func updateColor(_ color: UIColor) {
+    public func updateColor(_ color: UIColor) {
         layer.borderColor = color.cgColor
     }
 

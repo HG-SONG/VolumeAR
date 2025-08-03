@@ -8,7 +8,7 @@
 import UIKit
 
 extension UILabel {
-    func applyModeLabelStyle(initialText: String) {
+    public func applyModeLabelStyle(initialText: String) {
         self.text = initialText
         self.alpha = 0.75
         self.font = UIFont.systemFont(ofSize: 14, weight: .semibold)

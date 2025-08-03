@@ -5,7 +5,7 @@
 //  Created by SONG on 8/1/25.
 //
 
-enum Mode {
+public enum Mode {
     case searching
     case idle
 }

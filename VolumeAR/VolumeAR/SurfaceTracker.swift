@@ -7,6 +7,7 @@
 
 import ARKit
 import Combine
+import VolumeEntities
 
 final class SurfaceTracker: NSObject, ARSCNViewDelegate {
     let modePublisher = CurrentValueSubject<Mode, Never>(.searching)

@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIButton {
-    func applyPointButtonStyle() {
+    public func applyPointButtonStyle() {
         self.setTitle("Set Point", for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         self.tintColor = .white

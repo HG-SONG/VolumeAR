@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import VolumeEntities
 
-final class LevelBubbleView: UIView {
+public final class LevelBubbleView: UIView {
     private let bubbleSize: CGFloat = 10
     private let bubbleView: UIView = {
         let v = UIView()
@@ -21,7 +22,7 @@ final class LevelBubbleView: UIView {
         return (bounds.height / 2) - (bubbleSize / 2)
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         common()
     }
@@ -41,14 +42,14 @@ final class LevelBubbleView: UIView {
         bubbleView.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         if bubbleView.center == .zero {
             bubbleView.center = CGPoint(x: bounds.midX, y: bounds.midY)
         }
     }
     
-    func update(offset: LevelOffset, animated: Bool = false) {
+    public func update(offset: LevelOffset, animated: Bool = false) {
         let centerX = bounds.midX
         let dy = -CGFloat(offset.y) * maxRadius
         let target = CGPoint(x: centerX, y: bounds.midY + dy)
@@ -62,7 +63,7 @@ final class LevelBubbleView: UIView {
         }
     }
     
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         super.draw(rect)
         let cornerRadius = rect.height / 2
         let path = UIBezierPath(roundedRect: rect.insetBy(dx: 1, dy: 1), cornerRadius: cornerRadius)

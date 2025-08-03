@@ -6,15 +6,39 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E47FCA482E3F3E61007E7C99 /* Protocols in Resources */ = {isa = PBXBuildFile; fileRef = E47FCA472E3F3E61007E7C99 /* Protocols */; };
+		E47FCA4B2E3F3EF0007E7C99 /* VolumeEntities in Resources */ = {isa = PBXBuildFile; fileRef = E47FCA4A2E3F3EF0007E7C99 /* VolumeEntities */; };
+		E47FCA512E3F42BF007E7C99 /* VolumeEntities in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA502E3F42BF007E7C99 /* VolumeEntities */; };
+		E47FCA532E3F4314007E7C99 /* VolumeUI in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA522E3F4314007E7C99 /* VolumeUI */; };
+		E47FCA552E3F4391007E7C99 /* Protocols in Frameworks */ = {isa = PBXBuildFile; productRef = E47FCA542E3F4391007E7C99 /* Protocols */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E47FCA422E3F305B007E7C99 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E47FC9A32E3C8904007E7C99 /* VolumeAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolumeAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E47FCA452E3F315A007E7C99 /* VolumeUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = VolumeUI; sourceTree = "<group>"; };
+		E47FCA472E3F3E61007E7C99 /* Protocols */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Protocols; sourceTree = "<group>"; };
+		E47FCA4A2E3F3EF0007E7C99 /* VolumeEntities */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = VolumeEntities; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E47FC9CB2E3C8906007E7C99 /* Exceptions for "VolumeAR" folder in "VolumeAR" target */ = {
+		E47FCA592E3F6DAC007E7C99 /* Exceptions for "VolumeAR" folder in "VolumeAR" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = E47FC9A22E3C8904007E7C99 /* VolumeAR */;
 		};
@@ -24,7 +48,7 @@
 		E47FC9A52E3C8904007E7C99 /* VolumeAR */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E47FC9CB2E3C8906007E7C99 /* Exceptions for "VolumeAR" folder in "VolumeAR" target */,
+				E47FCA592E3F6DAC007E7C99 /* Exceptions for "VolumeAR" folder in "VolumeAR" target */,
 			);
 			path = VolumeAR;
 			sourceTree = "<group>";
@@ -36,6 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E47FCA552E3F4391007E7C99 /* Protocols in Frameworks */,
+				E47FCA532E3F4314007E7C99 /* VolumeUI in Frameworks */,
+				E47FCA512E3F42BF007E7C99 /* VolumeEntities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,7 +72,11 @@
 		E47FC99A2E3C8904007E7C99 = {
 			isa = PBXGroup;
 			children = (
+				E47FCA4A2E3F3EF0007E7C99 /* VolumeEntities */,
+				E47FCA472E3F3E61007E7C99 /* Protocols */,
+				E47FCA452E3F315A007E7C99 /* VolumeUI */,
 				E47FC9A52E3C8904007E7C99 /* VolumeAR */,
+				E47FCA4F2E3F42BF007E7C99 /* Frameworks */,
 				E47FC9A42E3C8904007E7C99 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +89,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E47FCA4F2E3F42BF007E7C99 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -68,6 +106,7 @@
 				E47FC99F2E3C8904007E7C99 /* Sources */,
 				E47FC9A02E3C8904007E7C99 /* Frameworks */,
 				E47FC9A12E3C8904007E7C99 /* Resources */,
+				E47FCA422E3F305B007E7C99 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -78,6 +117,9 @@
 			);
 			name = VolumeAR;
 			packageProductDependencies = (
+				E47FCA502E3F42BF007E7C99 /* VolumeEntities */,
+				E47FCA522E3F4314007E7C99 /* VolumeUI */,
+				E47FCA542E3F4391007E7C99 /* Protocols */,
 			);
 			productName = VolumeAR;
 			productReference = E47FC9A32E3C8904007E7C99 /* VolumeAR.app */;
@@ -122,6 +164,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E47FCA482E3F3E61007E7C99 /* Protocols in Resources */,
+				E47FCA4B2E3F3EF0007E7C99 /* VolumeEntities in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +191,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BM8Y482LFY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VolumeAR/Info.plist;
+				INFOPLIST_FILE = VolumeAR/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -179,7 +223,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BM8Y482LFY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VolumeAR/Info.plist;
+				INFOPLIST_FILE = VolumeAR/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -343,6 +387,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E47FCA502E3F42BF007E7C99 /* VolumeEntities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VolumeEntities;
+		};
+		E47FCA522E3F4314007E7C99 /* VolumeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VolumeUI;
+		};
+		E47FCA542E3F4391007E7C99 /* Protocols */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Protocols;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E47FC99B2E3C8904007E7C99 /* Project object */;
 }

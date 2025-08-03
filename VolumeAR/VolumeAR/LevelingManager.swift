@@ -10,12 +10,8 @@ import CoreMotion
 import ARKit
 import Combine
 
-public protocol LevelingManagable {
-    var offsetPublisher: AnyPublisher<LevelOffset, Never> { get }
-    func updateCameraTransform(_ cameraTransform: simd_float4x4)
-    func start()
-    func stop()
-}
+import Protocols
+import VolumeEntities
 
 public final class LevelingManager: LevelingManagable {
     private let motion = CMMotionManager()

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class JoystickView: UIView {
+public final class JoystickView: UIView {
     private let baseView = UIView()
     private let handleView = UIView()
 
@@ -17,7 +17,7 @@ final class JoystickView: UIView {
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         startRotationAnimation()
@@ -75,19 +75,19 @@ final class JoystickView: UIView {
         handleView.layer.add(rotation, forKey: "rotationAnimation")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveHandle(with: touches)
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveHandle(with: touches)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetHandlePosition()
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetHandlePosition()
     }
     
