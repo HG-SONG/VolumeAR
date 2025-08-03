@@ -24,6 +24,11 @@ let package = Package(
                 .product(name: "Protocols", package: "Protocols")
             ],
             path: "Sources/SurfaceDetection"
-        )
+        ),
+        .testTarget(
+                    name: "SurfaceDetectionTests",
+                    dependencies: ["SurfaceDetection"],
+                    path: "Tests/"
+                )
     ]
 )
