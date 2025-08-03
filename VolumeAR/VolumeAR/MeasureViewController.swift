@@ -16,6 +16,7 @@ final class MeasureViewController: UIViewController {
     let joystickView = JoystickView()
     let modeLabel = UILabel()
     let surfaceTracker: SurfaceTracker = .init() // 테스트할 필요성이 있으면, 프로토콜로 의존성 주입해서 쓰자
+    private var surfaceTrackerCancellables = Set<AnyCancellable>()
     
     private var mode: Mode = .searching {
         didSet {
@@ -23,6 +24,10 @@ final class MeasureViewController: UIViewController {
         }
     }
 
+    private let levelingManager: LevelingManagable = LevelingManager()
+    private let levelBubble = LevelBubbleView()
+    private var levelingCancellable: AnyCancellable?
+    private let hapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +36,8 @@ final class MeasureViewController: UIViewController {
         setupCameraView()
         setupUI()
         bindSurfaceTracker()
+        bindLeveling()
+        levelingManager.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,31 +76,24 @@ extension MeasureViewController {
                     self?.updateMode(newMode)
                 }
             }
-            .store(in: &cancellables)
-
-        surfaceTracker.surfaceInfoPublisher
-            .sink { [weak self] info in
+            .store(in: &surfaceTrackerCancellables)
+        
+        surfaceTracker.cameraTransformPublisher
+            .sink { [weak self] camTransform in
+                self?.levelingManager.updateCameraTransform(camTransform)
+            }
+            .store(in: &surfaceTrackerCancellables)
+    }
+    
+    private func bindLeveling() {
+        levelingCancellable = levelingManager.offsetPublisher
+            .sink { [weak self] offset in
                 Task { @MainActor in
-                    guard let self = self else { return }
-                    guard let info = info else {
-                        self.surfaceIndicatorNode.isHidden = true
-                        return
-                    }
-
-                    let minScale: Float = 0.3
-                    let maxScale: Float = 1.5
-                    let maxDistance: Float = 2.0
-                    let scale = max(minScale, maxScale - (info.distance / maxDistance) * (maxScale - minScale))
-
-                    self.surfaceIndicatorNode.isHidden = false
-                    self.surfaceIndicatorNode.updateTransform(
-                        position: info.position,
-                        normal: info.normal,
-                        scale: scale
-                    )
+                    self?.levelBubble.update(offset: offset, animated: true)
+                    HapticManager.shared.impactIfNeeded(offset: offset.y)
                 }
             }
-            .store(in: &cancellables)
+        levelingCancellable?.store(in: &surfaceTrackerCancellables)
     }
     
     @MainActor
@@ -102,7 +102,8 @@ extension MeasureViewController {
     }
     
     private func cancelSubscriptions() {
-        cancellables.removeAll()
+        surfaceTrackerCancellables.removeAll()
+        levelingCancellable?.cancel()
     }
 }
 
@@ -136,6 +137,7 @@ extension MeasureViewController {
         setupPointButton()
         setupJoystickView()
         setupModeLabel()
+        setupLevelBubble()
         
         view.bringSubviewToFront(reticleView)
         view.bringSubviewToFront(pointButton)
@@ -185,6 +187,17 @@ extension MeasureViewController {
             modeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             modeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             modeLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    private func setupLevelBubble() {
+        levelBubble.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(levelBubble)
+        NSLayoutConstraint.activate([
+            levelBubble.widthAnchor.constraint(equalToConstant: 15),
+            levelBubble.heightAnchor.constraint(equalToConstant: 120),
+            levelBubble.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            levelBubble.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
