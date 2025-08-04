@@ -20,6 +20,7 @@ public final class MeasureViewController: UIViewController {
     private let modeLabel = UILabel()
     private let surfaceManager: SurfaceManagable
     private var surfaceTrackerCancellables = Set<AnyCancellable>()
+    private var previewNode = PreviewSphereNode()
     
     private var mode: Mode = .searching {
         didSet {
@@ -97,6 +98,26 @@ extension MeasureViewController {
                 self?.levelingManager.updateCameraTransform(camTransform)
             }
             .store(in: &surfaceTrackerCancellables)
+        
+        surfaceManager.hitTestTransformPublisher
+            .sink { [weak self] transform in
+                Task { @MainActor in
+                    guard let self = self else { return }
+                    if let worldTransform = transform {
+                        let position = SCNVector3(
+                            worldTransform.columns.3.x,
+                            worldTransform.columns.3.y,
+                            worldTransform.columns.3.z
+                        )
+                        self.previewNode.update(position: position)
+                        self.pointButton.isEnabled = true
+                    } else {
+                        self.previewNode.hide()
+                        self.pointButton.isEnabled = false
+                    }
+                }
+            }
+            .store(in: &surfaceTrackerCancellables)
     }
     
     private func bindLeveling() {
@@ -133,6 +154,7 @@ extension MeasureViewController {
             cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        cameraView.scene.rootNode.addChildNode(previewNode)
     }
     
     private func startARSession() {
@@ -193,6 +215,7 @@ extension MeasureViewController {
     }
     
     func setupModeLabel() {
+        modeLabel.font = .systemFont(ofSize: 14, weight: .bold)
         modeLabel.applyModeLabelStyle(initialText: "Searching for Surface")
         modeLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(modeLabel)
