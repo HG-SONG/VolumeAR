@@ -26,9 +26,9 @@ let package = Package(
             path: "Sources/SurfaceDetection"
         ),
         .testTarget(
-                    name: "SurfaceDetectionTests",
-                    dependencies: ["SurfaceDetection"],
-                    path: "Tests/"
-                )
+            name: "SurfaceDetectionTests",
+            dependencies: ["SurfaceDetection"],
+            path: "Tests/"
+        )
     ]
 )
