@@ -11,6 +11,7 @@ import Protocols
 import SurfaceDetection
 import Leveling
 import MeasureScene
+import Haptic
 
 @MainActor
 public final class AppCore {
@@ -29,8 +30,9 @@ public final class AppCore {
     private func makeMeasureViewController() -> UIViewController {
         let surfaceManager = SurfaceManager()
         let levelingManager = LevelingManager()
+        let hapticManager = HapticManager()
 
-        let rootVC = MeasureViewController(surfaceManager: surfaceManager, levelingManager: levelingManager)
+        let rootVC = MeasureViewController(surfaceManager: surfaceManager, levelingManager: levelingManager, hapticManager: hapticManager)
         return rootVC
     }
 }

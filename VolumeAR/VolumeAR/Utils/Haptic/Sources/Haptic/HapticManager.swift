@@ -9,7 +9,7 @@ import UIKit
 import Protocols
 
 @MainActor
-public final class HapticManager {
+public final class HapticManager: HapticManagable {
     private let impactGenerator: FeedbackGenerator
     private let threshold: CGFloat
     private var wasOffsetOutsideThreshold = false

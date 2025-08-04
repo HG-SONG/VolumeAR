@@ -30,11 +30,12 @@ public final class MeasureViewController: UIViewController {
     private let levelingManager: LevelingManagable
     private let levelBubble = LevelBubbleView()
     private var levelingCancellable: AnyCancellable?
-    private let hapticGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private let hapticManager: HapticManagable
     
-    public init(surfaceManager: SurfaceManagable, levelingManager: LevelingManagable) {
+    public init(surfaceManager: SurfaceManagable, levelingManager: LevelingManagable, hapticManager: HapticManagable) {
         self.surfaceManager = surfaceManager
         self.levelingManager = levelingManager
+        self.hapticManager = hapticManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,7 +104,7 @@ extension MeasureViewController {
             .sink { [weak self] offset in
                 Task { @MainActor in
                     self?.levelBubble.update(offset: offset, animated: true)
-                    //HapticManager.shared.impactIfNeeded(offset: offset.y)
+                    self?.hapticManager.impactIfNeeded(offset: offset.y)
                 }
             }
         levelingCancellable?.store(in: &surfaceTrackerCancellables)

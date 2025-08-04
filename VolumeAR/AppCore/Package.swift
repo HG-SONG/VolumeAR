@@ -19,6 +19,7 @@ let package = Package(
         .package(name: "Protocols",path: "../Protocols"),
         .package(name: "SurfaceDetection",path: "../VolumeAR/Utils/SurfaceDetection"),
         .package(name: "Leveling",path: "../VolumeAR/Utils/Leveling"),
+        .package(name: "Haptic",path: "../VolumeAR/Utils/Haptic"),
         .package(name: "MeasureScene",path: "../VolumeAR/Scenes/MeasureScene")
     ],
     targets: [
@@ -29,6 +30,7 @@ let package = Package(
                 .product(name: "Protocols", package: "Protocols"),
                 .product(name: "SurfaceDetection", package: "SurfaceDetection"),
                 .product(name: "Leveling", package: "Leveling"),
+                .product(name: "Haptic", package: "Haptic"),
                 .product(name: "MeasureScene", package: "MeasureScene")
             ],
             path: "Sources/AppCore"

@@ -7,6 +7,7 @@
 
 import CoreGraphics
 
+@MainActor
 public protocol HapticManagable {
     func impactIfNeeded(offset: CGFloat)
 
