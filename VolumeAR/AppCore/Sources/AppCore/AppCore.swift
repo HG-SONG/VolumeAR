@@ -9,6 +9,7 @@ import UIKit
 import VolumeEntities
 import Protocols
 import SurfaceDetection
+import Leveling
 import MeasureScene
 
 @MainActor
@@ -27,8 +28,9 @@ public final class AppCore {
 
     private func makeMeasureViewController() -> UIViewController {
         let surfaceManager = SurfaceManager()
+        let levelingManager = LevelingManager()
 
-        let rootVC = MeasureViewController(surfaceManager: surfaceManager)
+        let rootVC = MeasureViewController(surfaceManager: surfaceManager, levelingManager: levelingManager)
         return rootVC
     }
 }

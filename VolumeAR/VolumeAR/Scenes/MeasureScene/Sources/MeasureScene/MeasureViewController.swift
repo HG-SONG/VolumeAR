@@ -27,13 +27,14 @@ public final class MeasureViewController: UIViewController {
         }
     }
 
-    private let levelingManager: LevelingManagable = LevelingManager()
+    private let levelingManager: LevelingManagable
     private let levelBubble = LevelBubbleView()
     private var levelingCancellable: AnyCancellable?
     private let hapticGenerator = UIImpactFeedbackGenerator(style: .medium)
     
-    public init(surfaceManager: SurfaceManagable) {
+    public init(surfaceManager: SurfaceManagable, levelingManager: LevelingManagable) {
         self.surfaceManager = surfaceManager
+        self.levelingManager = levelingManager
         super.init(nibName: nil, bundle: nil)
     }
     
