@@ -43,6 +43,7 @@
 			membershipExceptions = (
 				Resources/Info.plist,
 				Scenes/MeasureScene,
+				Utils/Haptic,
 				Utils/Leveling,
 			);
 			target = E47FC9A22E3C8904007E7C99 /* VolumeAR */;
