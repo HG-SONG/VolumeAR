@@ -23,10 +23,10 @@ public final class SurfaceManager: NSObject, SurfaceManagable {
     }
 
     public init(
-        raycastProvider: HitTestProvidable = ARSCNViewHitTestProvider(),
+        hitTestProvider: HitTestProvidable = ARSCNViewHitTestProvider(),
         frameProvider: FrameProvidable = ARSessionFrameProvider()
     ) {
-        self.hitTestProvider = raycastProvider
+        self.hitTestProvider = hitTestProvider
         self.frameProvider = frameProvider
         super.init()
     }

@@ -17,7 +17,7 @@ final class SurfaceManagerTests: XCTestCase {
         let hitProvider = MockHitTestProvider(points: [fakePoint])
         let frameProvider = MockFrameProvider(transform: matrix_identity_float4x4)
         let surfaceManager = SurfaceManager(
-            raycastProvider: hitProvider,
+            hitTestProvider: hitProvider,
             frameProvider: frameProvider
         )
 
@@ -46,7 +46,7 @@ final class SurfaceManagerTests: XCTestCase {
         let hitProvider = MockHitTestProvider(points: [])
         let frameProvider = MockFrameProvider(transform: matrix_identity_float4x4)
         let surfaceManager = SurfaceManager(
-            raycastProvider: hitProvider,
+            hitTestProvider: hitProvider,
             frameProvider: frameProvider
         )
 
