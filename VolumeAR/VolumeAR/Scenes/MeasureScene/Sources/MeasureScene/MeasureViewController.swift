@@ -17,7 +17,7 @@ public final class MeasureViewController: UIViewController {
     private let reticleView = ReticleView()
     private let pointButton = UIButton(type: .system)
     private let joystickView = JoystickView()
-    private let modeLabel = UILabel()
+    private let modeLabel = UILabel() // TODO: 크기 키우기
     private let surfaceManager: SurfaceManagable
     private var surfaceTrackerCancellables = Set<AnyCancellable>()
     private var previewNode = PreviewSphereNode()
